@@ -28,9 +28,9 @@ namespace MatrixTransformations
             Vector v4 = v2 + v3;
             Console.WriteLine(v4); // 3, 8
 
-            Matrix m1 = new Matrix();
+            Matrix4 m1 = new Matrix4();
             Console.WriteLine(m1); // 1, 0, 0, 1
-            Matrix m2 = new Matrix(
+            Matrix4 m2 = new Matrix4(
                 2, 4,
                 -1, 3);
             Console.WriteLine(m2);
