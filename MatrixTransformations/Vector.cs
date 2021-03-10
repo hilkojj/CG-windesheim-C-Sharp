@@ -3,72 +3,51 @@ using System.Text;
 
 namespace MatrixTransformations
 {
-    public class Vector3
+    public class Vector
     {
-        public float x, y, z;
+        public float x, y, z, w;
 
-        public Vector3()
-        {
-        }
-
-        public Vector3(float x, float y, float z)
+        public Vector(float x, float y, float z = 0, float w = 1)
         {
             this.x = x;
             this.y = y;
             this.z = z;
-        }
-
-        public static Vector3 operator +(Vector3 v1, Vector3 v2)
-        {
-            return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
-        }
-
-        public static Vector3 operator -(Vector3 v1, Vector3 v2)
-        {
-            return new Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
-        }
-
-        public static Vector3 operator *(Vector3 v1, float x)
-        {
-            return new Vector3(v1.x * x, v1.y * x, v1.z * x);
-        }
-
-        public static Vector3 operator *(float x, Vector3 v1)
-        {
-            return v1 * x;
-        }
-
-        // TODO: add more operators, but it is not necessary for this assignment.
-
-        public override string ToString()
-        {
-            return "vec3(" + x + ", " + y + ", " + z + ")";
-        }
-    }
-
-    public class Vector4 : Vector3 {
-
-        public float w;
-
-        public Vector4()
-        {
-        }
-
-        public Vector4(Vector3 vec3, float w) : this(vec3.x, vec3.y, vec3.z, w)
-        {
-        }
-
-        public Vector4(float x, float y, float z, float w) : base(x, y, z)
-        {
             this.w = w;
         }
 
-        // TODO: override operators, but it is not necessary for this assignment.
+        public Vector() : this(0, 0) { }
+
+        public float Length() {
+            return (float)Math.Sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+        }
+
+
+        public static Vector operator +(Vector v1, Vector v2)
+        {
+            return new Vector(v1.x + v2.x, v1.y + v2.y, v1.w + v2.w);
+        }
+
+        public static Vector operator -(Vector v1, Vector v2)
+        {
+            return new Vector(v1.x - v2.x, v1.y - v2.y, v1.w - v2.w);
+        }
+
+        public static Vector operator *(Vector v, float d) {
+            return new Vector(v.x * d, v.y * d, v.w * d);
+        }
+
+        public static Vector operator *(float d, Vector v)
+        {
+            return v * d;
+        }
 
         public override string ToString()
         {
-            return "vec4(" + x + ", " + y + ", " + z + ", " + w + ")";
+            StringBuilder sb = new StringBuilder().Append("X: ").Append(this.x)
+                                                .Append(", Y:").Append(this.y)
+                                                .Append(", Z:").Append(this.z)
+                                                .Append(", W:").Append(this.w);
+            return sb.ToString();
         }
     }
-
 }
