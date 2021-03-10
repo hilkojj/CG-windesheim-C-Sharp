@@ -23,6 +23,23 @@ namespace MatrixTransformations
             return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
         }
 
+        public static Vector3 operator -(Vector3 v1, Vector3 v2)
+        {
+            return new Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+        }
+
+        public static Vector3 operator *(Vector3 v1, float x)
+        {
+            return new Vector3(v1.x * x, v1.y * x, v1.z * x);
+        }
+
+        public static Vector3 operator *(float x, Vector3 v1)
+        {
+            return v1 * x;
+        }
+
+        // TODO: add more operators, but it is not necessary for this assignment.
+
         public override string ToString()
         {
             return "vec3(" + x + ", " + y + ", " + z + ")";
@@ -45,6 +62,8 @@ namespace MatrixTransformations
         {
             this.w = w;
         }
+
+        // TODO: override operators, but it is not necessary for this assignment.
 
         public override string ToString()
         {
