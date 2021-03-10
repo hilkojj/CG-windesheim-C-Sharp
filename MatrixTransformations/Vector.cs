@@ -3,29 +3,53 @@ using System.Text;
 
 namespace MatrixTransformations
 {
-    public class Vector
+    public class Vector3
     {
         public float x, y, z;
 
-        public Vector()
+        public Vector3()
         {
         }
 
-        public Vector(float x, float y, float z)
+        public Vector3(float x, float y, float z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
         }
 
-        public static Vector operator +(Vector v1, Vector v2)
+        public static Vector3 operator +(Vector3 v1, Vector3 v2)
         {
-            return new Vector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+            return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
         }
 
         public override string ToString()
         {
-            return "(" + x + ", " + y + ", " + z + ")";
+            return "vec3(" + x + ", " + y + ", " + z + ")";
         }
     }
+
+    public class Vector4 : Vector3 {
+
+        public float w;
+
+        public Vector4()
+        {
+        }
+
+        public Vector4(Vector3 vec3, float w) : this(vec3.x, vec3.y, vec3.z, w)
+        {
+        }
+
+        public Vector4(float x, float y, float z, float w) : base(x, y, z)
+        {
+            this.w = w;
+        }
+
+        public override string ToString()
+        {
+            return "vec4(" + x + ", " + y + ", " + z + ", " + w + ")";
+        }
+    }
+
 }

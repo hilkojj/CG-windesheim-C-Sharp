@@ -7,16 +7,21 @@ namespace MatrixTransformations
      * 
      * A good explanation of matrices:
      * http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/
+     * and
+     * https://vitaminac.github.io/Matrices-in-Computer-Graphics/
      * 
      **/
     public class Matrix4
     {
         float[,] mat = new float[4, 4];
 
-        public Matrix4()
+        public Matrix4() : this(1, 0, 0, 0,
+                                0, 1, 0, 0,
+                                0, 0, 1, 0,
+                                0, 0, 0, 1)
         {
-            throw new NotImplementedException();
         }
+
         public Matrix4(float m00, float m10, float m20, float m30,
                        float m01, float m11, float m21, float m31,
                        float m02, float m12, float m22, float m32,
@@ -28,6 +33,19 @@ namespace MatrixTransformations
             mat[0, 3] = m03; mat[1, 3] = m13; mat[2, 3] = m23; mat[3, 3] = m33;
         }
 
+        public Matrix4(Vector4 vec)
+        {
+            mat[0, 0] = vec.x;
+            mat[0, 1] = vec.y;
+            mat[0, 2] = vec.z;
+            mat[0, 3] = vec.w;
+        }
+
+        public Vector4 ToVector4()
+        {
+            return new Vector4(mat[0, 0], mat[0, 1], mat[0, 2], mat[0, 3]);
+        }
+    
         public static Matrix4 operator +(Matrix4 m1, Matrix4 m2)
         {
             Matrix4 result = new Matrix4();
@@ -45,6 +63,7 @@ namespace MatrixTransformations
                     result.mat[x, y] = m1.mat[x, y] - m2.mat[x, y];
             return result;
         }
+
         public static Matrix4 operator *(Matrix4 m1, float f)
         {
             Matrix4 result = new Matrix4();
@@ -58,22 +77,29 @@ namespace MatrixTransformations
         {
             return m1 * f;
         }
+
         public static Matrix4 operator *(Matrix4 m1, Matrix4 m2)
         {
-            throw new NotImplementedException();
+            Matrix4 result = new Matrix4();
+            for (int row = 0; row < 4; row++)
+            {
+                for (int col = 0; col < 4; col++)
+                {
+                    for (int i = 0; i < 4; i++)
+                        result.mat[row, col] += m1.mat[i, row] * m2.mat[col, i];
+                }
+            }
+            return result;
         }
 
-        public static Vector operator *(Matrix4 m1, Vector v)
+        public static Vector4 operator *(Matrix4 m1, Vector4 v)
         {
-            throw new NotImplementedException();
+            return (m1 * new Matrix4(v)).ToVector4();
         }
 
         public static Matrix4 Identity()
         {
-            return new Matrix4(1, 0, 0, 0,
-                               0, 1, 0, 0,
-                               0, 0, 1, 0,
-                               0, 0, 0, 1);
+            return new Matrix4();
         }
 
         public override string ToString()
