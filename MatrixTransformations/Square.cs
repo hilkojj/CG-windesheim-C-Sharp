@@ -34,8 +34,7 @@ namespace MatrixTransformations
         }
 
         public void applyMatrix(Matrix matrix) {
-            System.Console.WriteLine("Applying matrix " + matrix.ToString());
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < vb.Count; i++) {
                 vb[i] = matrix * vb[i];
             }
         }

@@ -8,6 +8,7 @@ namespace MatrixTransformations
 {
     public class Camera
     {
+        private float d = 800;
         private Vector t;
         private float theta;
         private float phi;
@@ -51,6 +52,11 @@ namespace MatrixTransformations
             return this.GetYCorrectionMatrix()
                 * this.GetXCorrectionMatrix()
                 * this.GetCameraTranslationMatrix();
+        }
+
+        public Matrix GetProjectionMatrix(Vector whereFrom) {
+            float dv = d / (t - whereFrom).Length();
+            return new Matrix() * -dv;
         }
 
     }

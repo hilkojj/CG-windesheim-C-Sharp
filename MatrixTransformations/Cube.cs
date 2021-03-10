@@ -66,9 +66,17 @@ namespace MatrixTransformations
 
         public void applyMatrix(Matrix matrix)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < vertexbuffer.Count; i++)
             {
                 vertexbuffer[i] = matrix * vertexbuffer[i];
+            }
+        }
+
+        public void applyProjectionMatrix(Camera camera)
+        {
+            for (int i = 0; i < vertexbuffer.Count; i++)
+            {
+                vertexbuffer[i] = camera.GetProjectionMatrix(vertexbuffer[i]) * vertexbuffer[i];
             }
         }
     }
