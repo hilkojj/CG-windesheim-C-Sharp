@@ -35,16 +35,6 @@ namespace MatrixTransformations
             new Vector( this.size, -this.size, -this.size),    //5
             new Vector(-this.size, -this.size, -this.size),    //6
             new Vector(-this.size,  this.size, -this.size),    //7
-
-            /*new Vector( 1.2f,  1.2f, 1.2f),     //0
-            new Vector( 1.2f, -1.2f, 1.2f),     //1
-            new Vector(-1.2f, -1.2f, 1.2f),     //2
-            new Vector(-1.2f,  1.2f, 1.2f),     //3
-
-            new Vector( 1.2f,  1.2f, -1.2f),    //4
-            new Vector( 1.2f, -1.2f, -1.2f),    //5
-            new Vector(-1.2f, -1.2f, -1.2f),    //6
-            new Vector(-1.2f,  1.2f, -1.2f)     //7*/
         };
         }
 
@@ -61,7 +51,6 @@ namespace MatrixTransformations
             g.DrawLine(pen, vb[6].x, vb[6].y, vb[7].x, vb[7].y);    //6 -> 7
             g.DrawLine(pen, vb[7].x, vb[7].y, vb[4].x, vb[4].y);    //7 -> 4
 
-            //pen.DashStyle = DashStyle.DashDot;
             g.DrawLine(pen, vb[0].x, vb[0].y, vb[4].x, vb[4].y);    //0 -> 4
             g.DrawLine(pen, vb[1].x, vb[1].y, vb[5].x, vb[5].y);    //1 -> 5
             g.DrawLine(pen, vb[2].x, vb[2].y, vb[6].x, vb[6].y);    //2 -> 6
@@ -77,7 +66,6 @@ namespace MatrixTransformations
 
         public void applyMatrix(Matrix matrix)
         {
-            //System.Console.WriteLine("Applying matrix " + matrix.ToString());
             for (int i = 0; i < 8; i++)
             {
                 vertexbuffer[i] = matrix * vertexbuffer[i];

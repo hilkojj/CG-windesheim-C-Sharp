@@ -8,8 +8,9 @@ namespace MatrixTransformations
     public partial class Form1 : Form
     {
         // Axes
-        AxisX x_axis;
-        AxisY y_axis;
+        Axis x_axis;
+        Axis y_axis;
+        Axis z_axis;
 
         // Objects
         Square squara;
@@ -33,8 +34,12 @@ namespace MatrixTransformations
             camera = new Camera(200, (float)(Math.PI / 6), (float)(Math.PI / 4));
 
             // Define axes
-            x_axis = new AxisX(200);
-            y_axis = new AxisY(200);
+            x_axis = new Axis(Axis.Which.X, 200);
+            y_axis = new Axis(Axis.Which.Y, 200);
+            z_axis = new Axis(Axis.Which.Z, 200);
+            x_axis.applyMatrix(camera.GetViewMatrix());
+            y_axis.applyMatrix(camera.GetViewMatrix());
+            z_axis.applyMatrix(camera.GetViewMatrix());
 
             // Create object
             cube = new Cube(Color.Purple, 120);
@@ -55,6 +60,7 @@ namespace MatrixTransformations
             // Draw axes
             x_axis.Draw(e.Graphics, Transform(x_axis.vb));
             y_axis.Draw(e.Graphics, Transform(y_axis.vb));
+            z_axis.Draw(e.Graphics, Transform(z_axis.vb));
 
             // Draw square
             cube.Draw(e.Graphics, Transform(cube.vertexbuffer));
