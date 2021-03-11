@@ -13,6 +13,8 @@ namespace MatrixTransformations
         Axis z_axis;
 
         Cube cube;
+        Cube dube;
+        Cube bube;
         Camera camera;
 
         // Window dimensions
@@ -26,20 +28,29 @@ namespace MatrixTransformations
             this.Width = WIDTH;
             this.Height = HEIGHT;
             this.DoubleBuffered = true;
-            camera = new Camera(2000, (float)(Math.PI / 6), (float)(Math.PI / 4));
+            camera = new Camera(400, (float)(Math.PI / 20), (float)(Math.PI / 2.5));
 
             // Define axes
-            x_axis = new Axis(Axis.Which.X, 200);
-            y_axis = new Axis(Axis.Which.Y, 200);
-            z_axis = new Axis(Axis.Which.Z, 200);
+            x_axis = new Axis(Axis.Which.X, 300);
+            y_axis = new Axis(Axis.Which.Y, 300);
+            z_axis = new Axis(Axis.Which.Z, 300);
             x_axis.applyMatrix(camera.GetViewMatrix());
             y_axis.applyMatrix(camera.GetViewMatrix());
             z_axis.applyMatrix(camera.GetViewMatrix());
+            x_axis.applyProjectionMatrix(camera);
+            y_axis.applyProjectionMatrix(camera);
+            z_axis.applyProjectionMatrix(camera);
 
             // Create object
             cube = new Cube(Color.Purple, 120);
+            dube = new Cube(Color.Orange, 40);
+            bube = new Cube(Color.Crimson, 280);
             cube.applyMatrix(camera.GetViewMatrix());
+            dube.applyMatrix(camera.GetViewMatrix());
+            bube.applyMatrix(camera.GetViewMatrix());
             cube.applyProjectionMatrix(camera);
+            dube.applyProjectionMatrix(camera);
+            bube.applyProjectionMatrix(camera);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -48,11 +59,13 @@ namespace MatrixTransformations
 
             // Draw axes
             x_axis.Draw(e.Graphics, Transform(x_axis.vb));
-            y_axis.Draw(e.Graphics, Transform(y_axis.vb));
+            y_axis.Draw(e.Graphics, Transform(y_axis.vb));//, 0, 0););
             z_axis.Draw(e.Graphics, Transform(z_axis.vb));
 
             // Draw cube
             cube.Draw(e.Graphics, Transform(cube.vertexbuffer));
+            dube.Draw(e.Graphics, Transform(dube.vertexbuffer));
+            bube.Draw(e.Graphics, Transform(bube.vertexbuffer));
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)

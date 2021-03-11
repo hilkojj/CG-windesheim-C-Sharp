@@ -53,5 +53,13 @@ namespace MatrixTransformations
                 vb[i] = matrix * vb[i];
             }
         }
+
+        public void applyProjectionMatrix(Camera camera)
+        {
+            for (int i = 0; i < vb.Count; i++)
+            {
+                vb[i] = camera.GetProjectionMatrix(vb[i]) * vb[i];
+            }
+        }
     }
 }
