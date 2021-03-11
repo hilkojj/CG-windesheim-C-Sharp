@@ -159,7 +159,7 @@ namespace MatrixTransformations
             return Matrix.getRotationMatrix2D(angleInRadians);
         }
 
-        public static Matrix getTranslationMatrix3D(float tx, float ty, float tz) {
+        public static Matrix GetTranslationMatrix3D(float tx, float ty, float tz) {
             return new Matrix(1, 0, 0, tx,
                               0, 1, 0, ty,
                               0, 0, 1, tz,

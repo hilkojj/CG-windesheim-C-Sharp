@@ -24,6 +24,12 @@ namespace MatrixTransformations
             return Transform2D(coords, windowWidth / 2, windowHeight / 2);
         }
 
+        public void ApplyMatrix(Matrix mat)
+        {
+            for (int i = 0; i < vertexbuffer.Count; i++)
+                vertexbuffer[i] = mat * vertexbuffer[i];
+        }
+
         private static List<Vector> Transform2D(List<Vector> origin, float delta_x, float delta_y)
         {
             List<Vector> result = new List<Vector>();

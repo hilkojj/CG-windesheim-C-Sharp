@@ -36,8 +36,8 @@ namespace MatrixTransformations
             zAxis = new Axis(Axis.Which.Z);
 
             // Create object
-            cube = new Cube(Color.Purple, 5);
-            dube = new Cube(Color.Orange, 2);
+            cube = new Cube(Color.Orange, 2);
+            dube = new Cube(Color.Purple, 5);
             bube = new Cube(Color.Crimson, 10);
         }
 
@@ -45,7 +45,6 @@ namespace MatrixTransformations
         {
             base.OnPaint(e);
             camera.Update();
-            Console.WriteLine(camera.r);
 
             // Draw axes
             xAxis.Draw(e.Graphics, camera, WIDTH, HEIGHT);
@@ -54,7 +53,7 @@ namespace MatrixTransformations
 
             // Draw cube
             // cube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
-            dube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
+            cube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
             // bube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
         }
         
@@ -65,6 +64,31 @@ namespace MatrixTransformations
             else if (e.KeyCode == Keys.R)
                 camera.r += .1f * (Control.ModifierKeys == Keys.Shift ? -1 : 1);
 
+            {
+                // TRANSLATE CUBE:
+
+                Vector translateCube = new Vector();
+
+                if (e.KeyCode == Keys.Left)
+                    translateCube.x += .1f;
+                else if (e.KeyCode == Keys.Right)
+                    translateCube.x -= .1f;
+
+                else if (e.KeyCode == Keys.Up)
+                    translateCube.y -= .1f;
+                else if (e.KeyCode == Keys.Down)
+                    translateCube.y += .1f;
+
+                else if (e.KeyCode == Keys.PageUp)
+                    translateCube.z += .1f;
+                else if (e.KeyCode == Keys.PageDown)
+                    translateCube.z -= .1f;
+
+
+                cube.ApplyMatrix(
+                    Matrix.GetTranslationMatrix3D(translateCube.x, translateCube.y, translateCube.z)
+                );
+            }
             this.Refresh();
         }
     }
