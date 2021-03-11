@@ -8,9 +8,9 @@ namespace MatrixTransformations
     public partial class Form1 : Form
     {
         // Axes
-        Axis x_axis;
-        Axis y_axis;
-        Axis z_axis;
+        Axis xAxis;
+        Axis yAxis;
+        Axis zAxis;
 
         Cube cube;
         Cube dube;
@@ -31,15 +31,15 @@ namespace MatrixTransformations
             camera = new Camera(10, (float)(Math.PI / 180 * -285), (float)(Math.PI / 180 * 74));
 
             // Define axes
-            x_axis = new Axis(Axis.Which.X, 2);
-            y_axis = new Axis(Axis.Which.Y, 2);
-            z_axis = new Axis(Axis.Which.Z, 2);
-            x_axis.applyMatrix(camera.GetViewMatrix());
-            y_axis.applyMatrix(camera.GetViewMatrix());
-            z_axis.applyMatrix(camera.GetViewMatrix());
-            x_axis.applyProjectionMatrix(camera);
-            y_axis.applyProjectionMatrix(camera);
-            z_axis.applyProjectionMatrix(camera);
+            xAxis = new Axis(Axis.Which.X, 2);
+            yAxis = new Axis(Axis.Which.Y, 2);
+            zAxis = new Axis(Axis.Which.Z, 2);
+            xAxis.applyMatrix(camera.GetViewMatrix());
+            yAxis.applyMatrix(camera.GetViewMatrix());
+            zAxis.applyMatrix(camera.GetViewMatrix());
+            xAxis.applyProjectionMatrix(camera);
+            yAxis.applyProjectionMatrix(camera);
+            zAxis.applyProjectionMatrix(camera);
 
             // Create object
             cube = new Cube(Color.Purple, 10);
@@ -58,9 +58,9 @@ namespace MatrixTransformations
             base.OnPaint(e);
 
             // Draw axes
-            x_axis.Draw(e.Graphics, Transform(x_axis.vb));
-            y_axis.Draw(e.Graphics, Transform(y_axis.vb));
-            z_axis.Draw(e.Graphics, Transform(z_axis.vb));
+            xAxis.Draw(e.Graphics, Transform(xAxis.vb));
+            yAxis.Draw(e.Graphics, Transform(yAxis.vb));
+            zAxis.Draw(e.Graphics, Transform(zAxis.vb));
 
             // Draw cube
             //cube.Draw(e.Graphics, Transform(cube.vertexbuffer));
