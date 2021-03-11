@@ -128,7 +128,7 @@ namespace MatrixTransformations
 
         public static Matrix getScalingMatrix(float size) {
             Matrix result = new Matrix() * size;
-            result.mat[3, 3] = 1;
+            result.mat[4, 4] = 1;
             return result;
         }
 
