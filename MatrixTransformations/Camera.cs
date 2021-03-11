@@ -8,20 +8,25 @@ namespace MatrixTransformations
 {
     public class Camera
     {
-        private float d = 800;
         private Vector t;
-        private float theta;
-        private float phi;
-        private float r;
+        public float d = 800;
+        public float theta;
+        public float phi;
+        public float r;
 
-        public Camera(float r, float theta, float phi) {
+        public Camera(float r, float theta, float phi)
+        {
+            this.theta = theta;
+            this.phi = phi;
+            this.r = r;
+            Update();
+        }
+
+        public void Update() {
             this.t = new Vector((float)(r * Math.Sin(phi) * Math.Cos(theta)),
                                 (float)(r * Math.Sin(phi) * Math.Sin(theta)),
                                 (float)(r * Math.Cos(phi)),
                                 0);
-            this.theta = theta;
-            this.phi = phi;
-            this.r = r;
         }
 
         public Matrix GetCameraTranslationMatrix() {

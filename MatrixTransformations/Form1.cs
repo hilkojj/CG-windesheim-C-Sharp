@@ -31,9 +31,9 @@ namespace MatrixTransformations
             camera = new Camera(10, (float)(Math.PI / 180 * -285), (float)(Math.PI / 180 * 74));
 
             // Define axes
-            xAxis = new Axis(Axis.Which.X, 2);
-            yAxis = new Axis(Axis.Which.Y, 2);
-            zAxis = new Axis(Axis.Which.Z, 2);
+            xAxis = new Axis(Axis.Which.X);
+            yAxis = new Axis(Axis.Which.Y);
+            zAxis = new Axis(Axis.Which.Z);
             xAxis.applyMatrix(camera.GetViewMatrix());
             yAxis.applyMatrix(camera.GetViewMatrix());
             zAxis.applyMatrix(camera.GetViewMatrix());
@@ -41,47 +41,44 @@ namespace MatrixTransformations
             yAxis.applyProjectionMatrix(camera);
             zAxis.applyProjectionMatrix(camera);
 
+
+    
+
             // Create object
-            cube = new Cube(Color.Purple, 10);
+            cube = new Cube(Color.Purple, 5);
             dube = new Cube(Color.Orange, 2);
-            bube = new Cube(Color.Crimson, 280);
-            cube.applyMatrix(camera.GetViewMatrix());
-            dube.applyMatrix(camera.GetViewMatrix());
-            bube.applyMatrix(camera.GetViewMatrix());
-            cube.applyProjectionMatrix(camera);
-            dube.applyProjectionMatrix(camera);
-            bube.applyProjectionMatrix(camera);
+            bube = new Cube(Color.Crimson, 10);
+            
+
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+            camera.Update();
+            Console.WriteLine(camera.r);
 
             // Draw axes
-            xAxis.Draw(e.Graphics, Transform(xAxis.vb));
-            yAxis.Draw(e.Graphics, Transform(yAxis.vb));
-            zAxis.Draw(e.Graphics, Transform(zAxis.vb));
+            // xAxis.Draw(e.Graphics, Transform(xAxis.vb));
+            // yAxis.Draw(e.Graphics, Transform(yAxis.vb));
+            // zAxis.Draw(e.Graphics, Transform(zAxis.vb));
 
             // Draw cube
-            //cube.Draw(e.Graphics, Transform(cube.vertexbuffer));
-            dube.Draw(e.Graphics, Transform(dube.vertexbuffer));
-            //bube.Draw(e.Graphics, Transform(bube.vertexbuffer));
-        }
 
+
+            // cube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
+            dube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
+            // bube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
+        }
+        
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
                 Application.Exit();
-        }
+            else if (e.KeyCode == Keys.R)
+                camera.r += .1f * (Control.ModifierKeys == Keys.Shift ? -1 : 1);
 
-        public static List<Vector> Transform(List<Vector> origin, float delta_x = WIDTH / 2, float delta_y = HEIGHT / 2) {
-            List<Vector> result = new List<Vector>();
-
-            foreach (Vector v in origin) {
-                result.Add(new Vector(v.x + delta_x, delta_y - v.y));
-            };
-
-            return result;
+            this.Refresh();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace MatrixTransformations
         private int size;
         private string label;
 
-        public Axis(Which which, int size = 100)
+        public Axis(Which which, int size = 3)
         {
             this.size = size;
             vb = new List<Vector>();
