@@ -28,12 +28,12 @@ namespace MatrixTransformations
             this.Width = WIDTH;
             this.Height = HEIGHT;
             this.DoubleBuffered = true;
-            camera = new Camera(400, (float)(Math.PI / 20), (float)(Math.PI / 2.5));
+            camera = new Camera(10, (float)(Math.PI / 180 * -285), (float)(Math.PI / 180 * 74));
 
             // Define axes
-            x_axis = new Axis(Axis.Which.X, 300);
-            y_axis = new Axis(Axis.Which.Y, 300);
-            z_axis = new Axis(Axis.Which.Z, 300);
+            x_axis = new Axis(Axis.Which.X, 2);
+            y_axis = new Axis(Axis.Which.Y, 2);
+            z_axis = new Axis(Axis.Which.Z, 2);
             x_axis.applyMatrix(camera.GetViewMatrix());
             y_axis.applyMatrix(camera.GetViewMatrix());
             z_axis.applyMatrix(camera.GetViewMatrix());
@@ -42,8 +42,8 @@ namespace MatrixTransformations
             z_axis.applyProjectionMatrix(camera);
 
             // Create object
-            cube = new Cube(Color.Purple, 120);
-            dube = new Cube(Color.Orange, 40);
+            cube = new Cube(Color.Purple, 10);
+            dube = new Cube(Color.Orange, 2);
             bube = new Cube(Color.Crimson, 280);
             cube.applyMatrix(camera.GetViewMatrix());
             dube.applyMatrix(camera.GetViewMatrix());
@@ -59,13 +59,13 @@ namespace MatrixTransformations
 
             // Draw axes
             x_axis.Draw(e.Graphics, Transform(x_axis.vb));
-            y_axis.Draw(e.Graphics, Transform(y_axis.vb));//, 0, 0););
+            y_axis.Draw(e.Graphics, Transform(y_axis.vb));
             z_axis.Draw(e.Graphics, Transform(z_axis.vb));
 
             // Draw cube
-            cube.Draw(e.Graphics, Transform(cube.vertexbuffer));
+            //cube.Draw(e.Graphics, Transform(cube.vertexbuffer));
             dube.Draw(e.Graphics, Transform(dube.vertexbuffer));
-            bube.Draw(e.Graphics, Transform(bube.vertexbuffer));
+            //bube.Draw(e.Graphics, Transform(bube.vertexbuffer));
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)

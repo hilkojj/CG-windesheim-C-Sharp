@@ -55,7 +55,7 @@ namespace MatrixTransformations
         }
 
         public Matrix GetProjectionMatrix(Vector whereFrom) {
-            float dv = d / ((t - whereFrom).Length() + d);
+            float dv = d / -whereFrom.z;
             return new Matrix() * dv;
         }
 
