@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace MatrixTransformations
 {
-    public class Cube
+    public class Cube : Mesh
     {
 
         //          7----------4
@@ -17,11 +17,11 @@ namespace MatrixTransformations
         //      2----------1
 
         private float size = 1;
-        public List<Vector> vertexbuffer; 
 
         Color col;
 
-        public Cube(Color c, float size) { 
+        public Cube(Color c, float size)
+        {
             col = c;
             this.size = size / 2;
             vertexbuffer = new List<Vector>
@@ -64,32 +64,6 @@ namespace MatrixTransformations
                 PointF p = new PointF(vb[i].x, vb[i].y);
                 g.DrawString(i.ToString(), font, Brushes.Black, p);
             }
-        }
-
-        public List<Vector> ToWindowCoordinates(Camera cam, float windowWidth, float windowHeight)
-        {
-            List<Vector> coords = new List<Vector>();
-
-            Matrix viewMatrix = cam.GetViewMatrix();
-
-            foreach (Vector v in vertexbuffer)
-            {
-                Vector coord = viewMatrix * v;
-                coord = cam.GetProjectionMatrix(coord) * coord;
-                coords.Add(coord);
-            }
-
-            return Transform2D(coords, windowWidth / 2, windowHeight / 2);
-        }
-
-        private static List<Vector> Transform2D(List<Vector> origin, float delta_x, float delta_y)
-        {
-            List<Vector> result = new List<Vector>();
-
-            foreach (Vector v in origin)
-                result.Add(new Vector(v.x + delta_x, delta_y - v.y));
-
-            return result;
         }
     }
 }

@@ -34,22 +34,11 @@ namespace MatrixTransformations
             xAxis = new Axis(Axis.Which.X);
             yAxis = new Axis(Axis.Which.Y);
             zAxis = new Axis(Axis.Which.Z);
-            xAxis.applyMatrix(camera.GetViewMatrix());
-            yAxis.applyMatrix(camera.GetViewMatrix());
-            zAxis.applyMatrix(camera.GetViewMatrix());
-            xAxis.applyProjectionMatrix(camera);
-            yAxis.applyProjectionMatrix(camera);
-            zAxis.applyProjectionMatrix(camera);
-
-
-    
 
             // Create object
             cube = new Cube(Color.Purple, 5);
             dube = new Cube(Color.Orange, 2);
             bube = new Cube(Color.Crimson, 10);
-            
-
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -59,13 +48,11 @@ namespace MatrixTransformations
             Console.WriteLine(camera.r);
 
             // Draw axes
-            // xAxis.Draw(e.Graphics, Transform(xAxis.vb));
-            // yAxis.Draw(e.Graphics, Transform(yAxis.vb));
-            // zAxis.Draw(e.Graphics, Transform(zAxis.vb));
+            xAxis.Draw(e.Graphics, camera, WIDTH, HEIGHT);
+            yAxis.Draw(e.Graphics, camera, WIDTH, HEIGHT);
+            zAxis.Draw(e.Graphics, camera, WIDTH, HEIGHT);
 
             // Draw cube
-
-
             // cube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
             dube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
             // bube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
