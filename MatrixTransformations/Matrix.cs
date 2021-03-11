@@ -126,13 +126,13 @@ namespace MatrixTransformations
             return new Vector(this.mat[0, 0], this.mat[1, 0], this.mat[2, 0]);
         }
 
-        public static Matrix getScalingMatrix(float size) {
+        public static Matrix GetScalingMatrix(float size) {
             Matrix result = new Matrix() * size;
-            result.mat[4, 4] = 1;
+            result.mat[3, 3] = 1;
             return result;
         }
 
-        public static Matrix getRotationMatrix2D(float angleInRadians) {
+        public static Matrix GetRotationMatrix2D(float angleInRadians) {
 
             //Console.WriteLine("Rotate matrix prepared.");
             return new Matrix((float) Math.Cos(angleInRadians),
@@ -141,22 +141,22 @@ namespace MatrixTransformations
                 (float) Math.Cos(angleInRadians));
         }
 
-        public static Matrix getXRotationMatrix(float angleInRadians) {
+        public static Matrix GetXRotationMatrix(float angleInRadians) {
             return new Matrix(1, 0, 0,
                               0, (float) Math.Cos(angleInRadians), (float) -Math.Sin(angleInRadians),
                               0, (float) Math.Sin(angleInRadians), (float) Math.Cos(angleInRadians));
         }
 
-        public static Matrix getYRotationMatrix(float angleInRadians)
+        public static Matrix GetYRotationMatrix(float angleInRadians)
         {
             return new Matrix((float) Math.Cos(angleInRadians), 0, (float) Math.Sin(angleInRadians),
                               0, 1, 0, 
                               (float) -Math.Sin(angleInRadians), 0, (float)Math.Cos(angleInRadians));
         }
 
-        public static Matrix getZRotationMatrix(float angleInRadians)
+        public static Matrix GetZRotationMatrix(float angleInRadians)
         {
-            return Matrix.getRotationMatrix2D(angleInRadians);
+            return Matrix.GetRotationMatrix2D(angleInRadians);
         }
 
         public static Matrix GetTranslationMatrix3D(float tx, float ty, float tz) {

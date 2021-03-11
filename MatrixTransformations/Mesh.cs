@@ -7,16 +7,17 @@ namespace MatrixTransformations
     public class Mesh
     {
         public List<Vector> vertexbuffer;
+        public Matrix modelTransform = new Matrix();
 
         public List<Vector> ToWindowCoordinates(Camera cam, float windowWidth, float windowHeight)
         {
             List<Vector> coords = new List<Vector>();
 
-            Matrix viewMatrix = cam.GetViewMatrix();
+            Matrix modelViewMatrix = cam.GetViewMatrix() * modelTransform;
 
             foreach (Vector v in vertexbuffer)
             {
-                Vector coord = viewMatrix * v;
+                Vector coord = modelViewMatrix * v;
                 coord = cam.GetProjectionMatrix(coord) * coord;
                 coords.Add(coord);
             }

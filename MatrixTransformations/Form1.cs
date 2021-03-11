@@ -35,7 +35,7 @@ namespace MatrixTransformations
             yAxis = new Axis(Axis.Which.Y);
             zAxis = new Axis(Axis.Which.Z);
 
-            // Create object
+            // Create cubes
             cube = new Cube(Color.Orange, 2);
             dube = new Cube(Color.Purple, 5);
             bube = new Cube(Color.Crimson, 10);
@@ -59,10 +59,12 @@ namespace MatrixTransformations
         
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            float shiftMultiplier = Control.ModifierKeys == Keys.Shift ? -1 : 1;
+
             if (e.KeyCode == Keys.Escape)
                 Application.Exit();
             else if (e.KeyCode == Keys.R)
-                camera.r += .1f * (Control.ModifierKeys == Keys.Shift ? -1 : 1);
+                camera.r += .1f * shiftMultiplier;
 
             {
                 // TRANSLATE CUBE:
@@ -84,11 +86,27 @@ namespace MatrixTransformations
                 else if (e.KeyCode == Keys.PageDown)
                     translateCube.z -= .1f;
 
-
-                cube.ApplyMatrix(
-                    Matrix.GetTranslationMatrix3D(translateCube.x, translateCube.y, translateCube.z)
-                );
+                cube.modelTransform *= Matrix.GetTranslationMatrix3D(translateCube.x, translateCube.y, translateCube.z);
             }
+            {
+                // ROTATE CUBE:
+
+                if (e.KeyCode == Keys.X)
+                    cube.modelTransform *= Matrix.GetXRotationMatrix((float)Math.PI * .01f * shiftMultiplier);
+                else if (e.KeyCode == Keys.Y)
+                    cube.modelTransform *= Matrix.GetYRotationMatrix((float)Math.PI * .01f * shiftMultiplier);
+                else if (e.KeyCode == Keys.Z)
+                    cube.modelTransform *= Matrix.GetZRotationMatrix((float)Math.PI * .01f * shiftMultiplier);
+            }
+            {
+                // SCALE CUBE:
+                if (e.KeyCode == Keys.S)
+                    cube.modelTransform *= Matrix.GetScalingMatrix(1f + shiftMultiplier * .1f);
+            }
+
+            if (e.KeyCode == Keys.C)
+                cube.modelTransform = Matrix.Identity(); // RESET ALL TRANSLATION/ROTATION/SCALING
+
             this.Refresh();
         }
     }

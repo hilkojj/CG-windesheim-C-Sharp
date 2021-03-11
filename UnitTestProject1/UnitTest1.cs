@@ -37,7 +37,7 @@ namespace UnitTestProject1
             Assert.AreEqual(c.mat[1, 0], 5);
             Assert.AreEqual(c.mat[1, 1], 0);
 
-            Assert.AreEqual(MatrixTransformations.Matrix.getScalingMatrix(3).mat[0, 0], 3);
+            Assert.AreEqual(MatrixTransformations.Matrix.GetScalingMatrix(3).mat[0, 0], 3);
         }
 
         [TestMethod]
