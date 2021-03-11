@@ -13,7 +13,7 @@ namespace MatrixTransformations
      **/
     public class Matrix4
     {
-        float[,] mat = new float[4, 4];
+        public float[,] mat = new float[4, 4];
 
         public Matrix4() : this(1, 0, 0, 0,
                                 0, 1, 0, 0,
@@ -85,8 +85,9 @@ namespace MatrixTransformations
             {
                 for (int col = 0; col < 4; col++)
                 {
+                    result.mat[col, row] = 0;
                     for (int i = 0; i < 4; i++)
-                        result.mat[row, col] += m1.mat[i, row] * m2.mat[col, i];
+                        result.mat[col, row] += m1.mat[i, row] * m2.mat[col, i];
                 }
             }
             return result;
