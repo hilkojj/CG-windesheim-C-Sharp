@@ -28,7 +28,7 @@ namespace MatrixTransformations
             this.Width = WIDTH;
             this.Height = HEIGHT;
             this.DoubleBuffered = true;
-            camera = new Camera(10, (float)(Math.PI / 180 * -285), (float)(Math.PI / 180 * 74));
+            ResetCamera();
 
             // Define axes
             xAxis = new Axis(Axis.Which.X);
@@ -39,6 +39,11 @@ namespace MatrixTransformations
             cube = new Cube(Color.Orange, 2);
             dube = new Cube(Color.Purple, 5);
             bube = new Cube(Color.Crimson, 10);
+        }
+
+        private void ResetCamera()
+        {
+            camera = new Camera(10, (float)(Math.PI / 180 * -285), (float)(Math.PI / 180 * 74));
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -55,6 +60,37 @@ namespace MatrixTransformations
             // cube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
             cube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
             // bube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
+
+            Font font = new Font("Arial", 12, FontStyle.Regular);
+            e.Graphics.DrawString("" +
+                "Scale:\n" +
+                "Translate:\n" +
+                "Rotate:\n\n" +
+                "r:\n" +
+                "d:\n" +
+                "phi:\n" +
+                "theta:\n\n" +
+                "Phase:", font, Brushes.Black, new PointF(0, 0));
+
+            e.Graphics.DrawString("" +
+                "S/s\n" +
+                "Arrows PgDn/PgUp\n" +
+                "X/x Y/y Z/z\n\n" +
+                "R/r\n" +
+                "D/d\n" +
+                "P/p\n" +
+                "T/t\n\n" +
+                "", font, Brushes.DarkGray, new PointF(80, 0));
+
+            e.Graphics.DrawString("" +
+                cube.scale.ToString() + "\n" +
+                cube.translate.ToString() + "\n" +
+                cube.rotate.ToString() + "\n\n" +
+                camera.r.ToString() + "\n" +
+                camera.d.ToString() + "\n" +
+                camera.phi.ToString() + "\n" +
+                camera.theta.ToString() + "\n\n" +
+                "todo", font, Brushes.Black, new PointF(250, 0));
         }
         
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -63,49 +99,61 @@ namespace MatrixTransformations
 
             if (e.KeyCode == Keys.Escape)
                 Application.Exit();
-            else if (e.KeyCode == Keys.R)
-                camera.r += .1f * shiftMultiplier;
 
             {
                 // TRANSLATE CUBE:
-
-                Vector translateCube = new Vector();
-
                 if (e.KeyCode == Keys.Left)
-                    translateCube.x += .1f;
+                    cube.translate.x += .1f;
                 else if (e.KeyCode == Keys.Right)
-                    translateCube.x -= .1f;
+                    cube.translate.x -= .1f;
 
                 else if (e.KeyCode == Keys.Up)
-                    translateCube.y -= .1f;
+                    cube.translate.y -= .1f;
                 else if (e.KeyCode == Keys.Down)
-                    translateCube.y += .1f;
+                    cube.translate.y += .1f;
 
                 else if (e.KeyCode == Keys.PageUp)
-                    translateCube.z += .1f;
+                    cube.translate.z += .1f;
                 else if (e.KeyCode == Keys.PageDown)
-                    translateCube.z -= .1f;
-
-                cube.modelTransform *= Matrix.GetTranslationMatrix3D(translateCube.x, translateCube.y, translateCube.z);
+                    cube.translate.z -= .1f;
             }
             {
                 // ROTATE CUBE:
+                float rotateAmount = (float)Math.PI * .01f * shiftMultiplier;
 
                 if (e.KeyCode == Keys.X)
-                    cube.modelTransform *= Matrix.GetXRotationMatrix((float)Math.PI * .01f * shiftMultiplier);
+                    cube.rotate.x += rotateAmount;
                 else if (e.KeyCode == Keys.Y)
-                    cube.modelTransform *= Matrix.GetYRotationMatrix((float)Math.PI * .01f * shiftMultiplier);
+                    cube.rotate.y += rotateAmount;
                 else if (e.KeyCode == Keys.Z)
-                    cube.modelTransform *= Matrix.GetZRotationMatrix((float)Math.PI * .01f * shiftMultiplier);
+                    cube.rotate.z += rotateAmount;
             }
             {
                 // SCALE CUBE:
                 if (e.KeyCode == Keys.S)
-                    cube.modelTransform *= Matrix.GetScalingMatrix(1f + shiftMultiplier * .1f);
+                    cube.scale += shiftMultiplier * .1f;
             }
 
-            if (e.KeyCode == Keys.C)
-                cube.modelTransform = Matrix.Identity(); // RESET ALL TRANSLATION/ROTATION/SCALING
+            {
+                // CHANGE CAMERA:
+                if (e.KeyCode == Keys.R)
+                    camera.r += .1f * shiftMultiplier;
+                else if (e.KeyCode == Keys.T)
+                    camera.theta += .1f * shiftMultiplier;
+                else if (e.KeyCode == Keys.P)
+                    camera.phi += .1f * shiftMultiplier;
+                else if (e.KeyCode == Keys.D)
+                    camera.d += 10f * shiftMultiplier;
+            }
+
+            if (e.KeyCode == Keys.C)    // RESET ALL VARIABLES
+            {
+                ResetCamera();
+                // RESET ALL TRANSLATION/ROTATION/SCALING
+                cube.translate = new Vector();
+                cube.rotate = new Vector();
+                cube.scale = 1;
+            }
 
             this.Refresh();
         }

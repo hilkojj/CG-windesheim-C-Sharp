@@ -7,11 +7,21 @@ namespace MatrixTransformations
     public class Mesh
     {
         public List<Vector> vertexbuffer;
-        public Matrix modelTransform = new Matrix();
+        public float scale = 1;
+        public Vector translate = new Vector();
+        public Vector rotate = new Vector();
 
         public List<Vector> ToWindowCoordinates(Camera cam, float windowWidth, float windowHeight)
         {
             List<Vector> coords = new List<Vector>();
+
+            Matrix modelTransform = Matrix.GetTranslationMatrix3D(translate.x, translate.y, translate.z)
+
+                                    * Matrix.GetScalingMatrix(scale)
+
+                                    * Matrix.GetXRotationMatrix(rotate.x)
+                                    * Matrix.GetYRotationMatrix(rotate.y)
+                                    * Matrix.GetZRotationMatrix(rotate.z);
 
             Matrix modelViewMatrix = cam.GetViewMatrix() * modelTransform;
 
