@@ -123,7 +123,7 @@ namespace MatrixTransformations
         }
 
         public Vector ToVector() {
-            return new Vector(this.mat[0, 0], this.mat[1, 0]);
+            return new Vector(this.mat[0, 0], this.mat[1, 0], this.mat[2, 0]);
         }
 
         public static Matrix getScalingMatrix(float size) {
