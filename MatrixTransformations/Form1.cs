@@ -21,6 +21,11 @@ namespace MatrixTransformations
         const int WIDTH = 800;
         const int HEIGHT = 600;
 
+        // Animation timing
+        Timer animationTimer = new Timer();
+        int animationPhase = 1;
+        int animationSubPhase = 1;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,7 +33,10 @@ namespace MatrixTransformations
             this.Width = WIDTH;
             this.Height = HEIGHT;
             this.DoubleBuffered = true;
-            ResetCamera();
+            camera = GetDefaultCamera();
+
+            animationTimer.Interval = 30;
+            animationTimer.Tick += new EventHandler(UpdateAnimation);
 
             // Define axes
             xAxis = new Axis(Axis.Which.X);
@@ -41,9 +49,9 @@ namespace MatrixTransformations
             bube = new Cube(Color.Crimson, 10);
         }
 
-        private void ResetCamera()
+        private Camera GetDefaultCamera()
         {
-            camera = new Camera(10, (float)(Math.PI / 180 * -285), (float)(Math.PI / 180 * 74));
+            return new Camera(10, ToRadians(-100), ToRadians(-10));
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -62,6 +70,8 @@ namespace MatrixTransformations
             // bube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
 
             Font font = new Font("Arial", 12, FontStyle.Regular);
+            e.Graphics.DrawString("Note: all rotations are in Radians", font, Brushes.DarkGray, new PointF(0, 0));
+
             e.Graphics.DrawString("" +
                 "Scale:\n" +
                 "Translate:\n" +
@@ -70,7 +80,7 @@ namespace MatrixTransformations
                 "d:\n" +
                 "phi:\n" +
                 "theta:\n\n" +
-                "Phase:", font, Brushes.Black, new PointF(0, 0));
+                "Phase:", font, Brushes.Black, new PointF(0, 20));
 
             e.Graphics.DrawString("" +
                 "S/s\n" +
@@ -80,7 +90,7 @@ namespace MatrixTransformations
                 "D/d\n" +
                 "P/p\n" +
                 "T/t\n\n" +
-                "", font, Brushes.DarkGray, new PointF(80, 0));
+                "", font, Brushes.DarkGray, new PointF(80, 20));
 
             e.Graphics.DrawString("" +
                 cube.scale.ToString() + "\n" +
@@ -90,7 +100,7 @@ namespace MatrixTransformations
                 camera.d.ToString() + "\n" +
                 camera.phi.ToString() + "\n" +
                 camera.theta.ToString() + "\n\n" +
-                "todo", font, Brushes.Black, new PointF(250, 0));
+                animationPhase.ToString(), font, Brushes.Black, new PointF(250, 20));
         }
         
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -148,14 +158,114 @@ namespace MatrixTransformations
 
             if (e.KeyCode == Keys.C)    // RESET ALL VARIABLES
             {
-                ResetCamera();
+                camera = GetDefaultCamera();
                 // RESET ALL TRANSLATION/ROTATION/SCALING
                 cube.translate = new Vector();
                 cube.rotate = new Vector();
                 cube.scale = 1;
+
+                animationTimer.Stop();
+                animationPhase = 1;
+                animationSubPhase = 1;
             }
+            else if (e.KeyCode == Keys.A)
+                animationTimer.Start();
 
             this.Refresh();
+        }
+
+        void UpdateAnimation(object sender, EventArgs e)
+        {
+            switch (animationPhase)
+            {
+                case 1: // Scale until 1.5x and shrink (stepsize 0.01)
+
+                    if (animationSubPhase == 1)
+                    {
+                        cube.scale += .01f;
+                        if (cube.scale >= 1.5)
+                            animationSubPhase = 2;
+                    }
+                    else
+                    {
+                        cube.scale -= .01f;
+                        if (cube.scale <= 1)
+                        {
+                            cube.scale = 1;
+                            animationPhase = 2;
+                            animationSubPhase = 1;
+                        }
+                    }
+                    camera.theta -= ToRadians(1);
+                    break;
+                case 2: // Rotate 45° over X-axis and back
+
+                    if (animationSubPhase == 1)
+                    {
+                        cube.rotate.x += ToRadians(1);
+                        if (cube.rotate.x >= Math.PI * .5)
+                            animationSubPhase = 2;
+                    }
+                    else
+                    {
+                        cube.rotate.x -= ToRadians(1);
+                        if (cube.rotate.x <= 0)
+                        {
+                            cube.rotate.x = 0;
+                            animationPhase = 3;
+                            animationSubPhase = 1;
+                        }
+                    }
+                    camera.theta -= ToRadians(1);
+                    break;
+                case 3: // Rotate 45° over Y-axis and back
+                    if (animationSubPhase == 1)
+                    {
+                        cube.rotate.y += ToRadians(1);
+                        if (cube.rotate.y >= Math.PI * .5)
+                            animationSubPhase = 2;
+                    }
+                    else
+                    {
+                        cube.rotate.y -= ToRadians(1);
+                        if (cube.rotate.y <= 0)
+                        {
+                            cube.rotate.y = 0;
+                            animationPhase = 4;
+                            animationSubPhase = 1;
+                        }
+                    }
+                    camera.phi += ToRadians(1);
+                    break;
+                case 4: // After phase 3, increase theta and decrease phi until starting values.
+
+                    bool finished = true;
+
+                    if (camera.theta < GetDefaultCamera().theta)
+                    {
+                        camera.theta += ToRadians(1);
+                        finished = false;
+                    }
+
+                    if (camera.phi < GetDefaultCamera().phi)
+                    {
+                        camera.phi -= ToRadians(1);
+                    }
+
+                    if (finished)
+                        animationPhase = -1;
+                    break;
+                default:
+                    animationPhase = 1;
+                    animationSubPhase = 1;
+                    break;
+            }
+            this.Refresh();
+        }
+
+        public float ToRadians(float degrees)
+        {
+            return ((float)Math.PI / 180f) * degrees;
         }
     }
 }
