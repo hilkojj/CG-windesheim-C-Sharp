@@ -170,6 +170,8 @@ namespace MatrixTransformations
             }
             else if (e.KeyCode == Keys.A)
                 animationTimer.Start();
+            else if (e.KeyCode == Keys.H) 
+                animationTimer.Enabled = !animationTimer.Enabled;
 
             this.Refresh();
         }
@@ -247,7 +249,7 @@ namespace MatrixTransformations
                         finished = false;
                     }
 
-                    if (camera.phi < GetDefaultCamera().phi)
+                    if (camera.phi > GetDefaultCamera().phi)
                     {
                         camera.phi -= ToRadians(1);
                     }
