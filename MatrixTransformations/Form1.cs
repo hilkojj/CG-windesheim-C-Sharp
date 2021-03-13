@@ -65,8 +65,8 @@ namespace MatrixTransformations
             zAxis.Draw(e.Graphics, camera, WIDTH, HEIGHT);
 
             // Draw cube
-            // cube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
             cube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
+            // dube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
             // bube.Draw(e.Graphics, camera, WIDTH, HEIGHT);
 
             Font font = new Font("Arial", 12, FontStyle.Regular);
@@ -252,6 +252,7 @@ namespace MatrixTransformations
                     if (camera.phi > GetDefaultCamera().phi)
                     {
                         camera.phi -= ToRadians(1);
+                        finished = false;
                     }
 
                     if (finished)
